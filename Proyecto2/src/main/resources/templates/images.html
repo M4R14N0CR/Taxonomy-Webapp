@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage images</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+
+    <style>
+        body {
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            height: 80vh;
+        }
+
+        .card {
+            background-color: #fff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+            width: calc(33.33% - 10px);
+            flex-grow: 1;
+            flex-basis: 0;
+            margin-right: 10px;
+            margin-left: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .card:hover .overlay {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            vertical-align: top;
+        }
+
+        .card .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(100%);
+            transition: all 0.3s ease;
+        }
+
+        .card .overlay h2 {
+            font-size: 24px;
+            margin: 0;
+        }
+
+        .card .overlay p {
+            font-size: 16px;
+            margin: 0;
+            margin-top: 10px;
+        }
+
+        .custom-image {
+
+            height: 400px;
+        }
+
+
+    </style>
+
+</head>
+
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Proyecto 2</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Dueños y Autores
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" th:href="@{/owners}">Dueños</a>
+                    <a class="dropdown-item" th:href="@{/authors}">Autores</a>
+                    <a class="dropdown-item" th:href="@{/institutions}">Instituciones</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarTaxonomia" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Taxonomía
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" th:href="@{/reinos}">Reinos</a>
+                    <a class="dropdown-item" th:href="@{/filos}">Filos</a>
+                    <a class="dropdown-item" th:href="@{/clases}">Clases</a>
+                    <a class="dropdown-item" th:href="@{/ordens}">Ordenes</a>
+                    <a class="dropdown-item" th:href="@{/familias}">Familias</a>
+                    <a class="dropdown-item" th:href="@{/generos}">Generos</a>
+                </div>
+            </li>
+
+        </ul>
+    </div>
+</nav>
+
+<br>
+<br>
+<div class="container-fluid text-center p-5">
+
+
+    <div class="col container">
+        <div class="col-md-7 mx-1">
+            <img th:src="@{'/imagenes/' + ${image.getPath()}}" class="img-fluid custom-image" alt="...">
+        </div>
+
+        <div class="col-md-4">
+            <div th:if="${message}" class="alert alert-success text-center">
+                [[${message}]]
+            </div>
+            <br><br>
+            <div>
+                <table class="table table-bordered">
+                    <tbody>
+                    <tr>
+                        <th>ID</th>
+                        <td th:text="${image.id}"></td>
+                    </tr>
+                    <tr>
+                        <th>FECHA</th>
+                        <td th:text="${image.date}"></td>
+                    </tr>
+                    <tr>
+                        <th>PATH</th>
+                        <td th:text="${image.path}"></td>
+                    </tr>
+                    <tr>
+                        <th>AUTOR</th>
+                        <td th:text="${image.author.name}"></td>
+                    </tr>
+                    <tr>
+                        <th>PROPIETARIO</th>
+                        <td th:text="${image.ownerId.name}"></td>
+                    </tr>
+                    <tr>
+                        <th>KEYWORDS</th>
+                        <td th:text="${image.keywords}"></td>
+                    </tr>
+                    <tr>
+                        <th>DESCRIPTION</th>
+                        <td th:text="${image.description}"></td>
+                    </tr>
+                    <tr>
+                        <th>ACTIONS</th>
+                        <td>
+                            <a class="h4 mr-3" th:href="@{'/images/edit/' + ${image.id}}">Editar</a>
+                            <a class="h4" th:href="@{'/images/delete/' + ${image.id}}">Borrar</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <div ><h1>Taxonomía</h1></div>
+    <br>
+    <br>
+
+    <div class="container">
+        <div  class="col-lg-10">
+            <table class="table table-bordered">
+                <tbody>
+                <tr>
+                    <th>Reino</th>
+                    <td th:text="${image.reino.scientific_name}"></td>
+                </tr>
+                <tr>
+                    <th>Filo</th>
+                    <td th:text="${image.filo.scientific_name}"></td>
+                </tr>
+                <tr>
+                    <th>Clase</th>
+                    <td th:text="${image.clase.scientific_name}"></td>
+                </tr>
+                <tr>
+                    <th>Orden</th>
+                    <td th:text="${image.orden.scientific_name}"></td>
+                </tr>
+                <tr>
+                    <th>Familia</th>
+                    <td th:text="${image.familia.scientific_name}"></td>
+                </tr>
+                <tr>
+                    <th>Genero</th>
+                    <td th:text="${image.genero.scientific_name}"></td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

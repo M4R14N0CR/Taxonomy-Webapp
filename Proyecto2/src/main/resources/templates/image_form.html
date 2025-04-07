@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>[[${pageTitle}]]</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+
+    <style>
+
+
+
+        .form-control {
+            width: 70%;
+        }
+
+        .text-center h2 {
+            margin-left: -5px;
+        }
+
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Proyecto 2</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Dueños y Autores
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" th:href="@{/owners}">Dueños</a>
+                    <a class="dropdown-item" th:href="@{/authors}">Autores</a>
+                    <a class="dropdown-item" th:href="@{/institutions}">Instituciones</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarTaxonomia" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Taxonomía
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" th:href="@{/reinos}">Reinos</a>
+                    <a class="dropdown-item" th:href="@{/filos}">Filos</a>
+                    <a class="dropdown-item" th:href="@{/clases}">Clases</a>
+                    <a class="dropdown-item" th:href="@{/ordens}">Ordenes</a>
+                    <a class="dropdown-item" th:href="@{/familias}">Familias</a>
+                    <a class="dropdown-item" th:href="@{/generos}">Generos</a>
+                </div>
+            </li>
+
+        </ul>
+    </div>
+</nav>
+
+<br>
+<br>
+
+
+<div class="container-fluid">
+
+    <form th:action="@{/save}" method="post" th:object="${image}"
+          style="max-width: 500px; margin: 0 auto;" enctype="multipart/form-data">
+
+        <input type="hidden" th:field="*{id}">
+
+        <div style="display: grid; justify-content: center;">
+            <div class="border border-secondary rounded p-3" style="width: 120%;">
+
+                <div class="text-center"><h2>[[${pageTitle}]]</h2></div>
+
+            <div class="row justify-content-center">
+                <div class="col-md-6" style="padding: 10px 50px;">
+
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label p-3">Imagen</label>
+                    <input class="form-control" type="file" name="nameimage" accept="image/*" required>
+
+                </div>
+
+
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label p-3">Fecha</label>
+
+                    <input type="text" th:field="*{date}" class="form-control" required minlength="3" maxlength="50"/>
+
+                </div>
+
+
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label p-3">Descripción</label>
+                    <input type="text" th:field="*{description}" class="form-control" required
+                           minlength="10" maxlength="150"/>
+                </div>
+
+
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label p-3">Keywords</label>
+
+                    <input type="text" th:field="*{keywords}" class="form-control" required minlength="3"
+                           maxlength="150"/>
+                    <small class="form-text text-muted">Inserte las palabras separadas por coma</small>
+
+                </div>
+
+
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label p-3">Propietario</label>
+
+                    <select class="form-control" name="owner.id" required>
+                        <option value="">Seleccione un propietario</option>
+                        <option th:each="owner : ${owners}"
+                                th:value="${owner.id}"
+                                th:text="${owner.name}">
+                        </option>
+                    </select>
+
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label p-3">Autor</label>
+
+                    <select class="form-control" name="author.id" required>
+                        <option value="">Seleccione un autor</option>
+                        <option th:each="author : ${authors}"
+                                th:value="${author.id}"
+                                th:text="${author.name + ' ' + author.lastname}">
+                        </option>
+                    </select>
+
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label p-3">Licencias</label>
+
+                    <select class="form-control" name="license" required>
+                        <option value="">Seleccionar licencia</option>
+                        <option th:each="license : ${licenses}" th:value="${license}"
+                                th:text="${license}"></option>
+                    </select>
+
+                </div>
+
+            </div>
+
+                <div class="col-md-6" style="padding: 15px 30px;">
+
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label p-3">Reino</label>
+
+                    <select class="form-control" name="reino.id" required>
+                        <option value="">Seleccione un reino</option>
+                        <option th:each="reino : ${reinos}"
+                                th:value="${reino.id}"
+                                th:text="${reino.scientific_name}">
+                        </option>
+                    </select>
+
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label p-3">Filo</label>
+
+                    <select class="form-control" name="filo.id" required>
+                        <option value="">Seleccione un filo</option>
+                        <option th:each="filo : ${filos}"
+                                th:value="${filo.id}"
+                                th:text="${filo.scientific_name}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label p-3">Clase</label>
+
+                    <select class="form-control" name="clase.id" required>
+                        <option value="">Seleccione una clase</option>
+                        <option th:each="clase : ${clases}"
+                                th:value="${clase.id}"
+                                th:text="${clase.scientific_name}">
+                        </option>
+                    </select>
+
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label p-3">Orden</label>
+
+                    <select class="form-control" name="orden.id" required>
+                        <option value="">Seleccione un reino</option>
+                        <option th:each="orden : ${ordenes}"
+                                th:value="${orden.id}"
+                                th:text="${orden.scientific_name}">
+                        </option>
+                    </select>
+
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label p-3">Familia</label>
+
+                    <select class="form-control" name="familia.id" required>
+                        <option value="">Seleccione una familia</option>
+                        <option th:each="familia : ${familias}"
+                                th:value="${familia.id}"
+                                th:text="${familia.scientific_name}">
+                        </option>
+                    </select>
+
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label p-3">Genero</label>
+
+                    <select class="form-control" name="genero.id" required>
+                        <option value="">Seleccione un genero</option>
+                        <option th:each="genero : ${generos}"
+                                th:value="${genero.id}"
+                                th:text="${genero.scientific_name}">
+                        </option>
+                    </select>
+
+                </div>
+
+            </div>
+            </div>
+
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary m-2">Save</button>
+                <button type="button" class="btn btn-danger m-2" onclick="cancelForm()">Cancel</button>
+            </div>
+
+        </div>
+        </div>
+
+
+
+
+</form>
+
+
+</div>
+<script type="text/javascript">
+    function cancelForm() {
+        window.location = "[[@{/}]]"
+    }
+
+
+</script>
+</body>
+</html>

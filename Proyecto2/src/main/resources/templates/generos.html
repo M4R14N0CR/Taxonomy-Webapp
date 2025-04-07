@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Manage generos</title>
+  <link rel="stylesheet" type="text/css" th:href= "@{/webjars/bootstrap/css/bootstrap.min.css}" />
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Proyecto 2</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Dueños y Autores
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" th:href="@{/owners}">Dueños</a>
+          <a class="dropdown-item" th:href="@{/authors}">Autores</a>
+          <a class="dropdown-item" th:href="@{/institutions}">Instituciones</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarTaxonomia" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Taxonomía
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" th:href="@{/reinos}">Reinos</a>
+          <a class="dropdown-item" th:href="@{/filos}">Filos</a>
+          <a class="dropdown-item" th:href="@{/clases}">Clases</a>
+          <a class="dropdown-item" th:href="@{/ordens}">Ordenes</a>
+          <a class="dropdown-item" th:href="@{/familias}">Familias</a>
+          <a class="dropdown-item" th:href="@{/generos}">Generos</a>
+        </div>
+      </li>
+
+    </ul>
+  </div>
+</nav>
+
+<br>
+<br>
+<br>
+<br>
+
+<div class="container-fluid text-center">
+
+
+
+  <div>
+    <table class="table table-bordered">
+      <thead class="thead-dark">
+      <tr>
+        <th>ID</th>
+        <th>Nombre scientifico</th>
+        <th>Autor</th>
+        <th>Año de publicacion</th>
+        <th>Ancestro</th>
+        <th>ACTIONS</th>
+      </tr>
+      </thead>
+      <tbody>
+      <th:block th:each="genero : ${listgenero}">
+        <tr>
+          <td>[[${genero.id}]]</td>
+          <td>[[${genero.scientific_name}]]</td>
+          <td>[[${genero.author_name}]]</td>
+          <td>[[${genero.publication_year}]]</td>
+          <td>[[${genero.taxon_ancestor}]]</td>
+          <td>
+            <a class="h4 mr-3" th:href="@{'/generos/edit/' + ${genero.id}}">Editar</a>
+            <a class="h4" th:href="@{'/generos/delete/' + ${genero.id}}">Borrar</a>
+          </td>
+
+        </tr>
+
+      </th:block>
+
+      </tbody>
+
+    </table>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="d-flex">
+        <div class="m-2 mr-3">
+          <a class ="h3" th:href="@{/generos/new}">Añadir genero</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

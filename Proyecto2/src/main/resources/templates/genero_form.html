@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>[[${pageTitle}]]</title>
+  <link rel="stylesheet" type="text/css" th:href= "@{/webjars/bootstrap/css/bootstrap.min.css}" />
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Genero</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Dueños y Autores
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" th:href="@{/owners}">Dueños</a>
+          <a class="dropdown-item" th:href="@{/authors}">Autores</a>
+          <a class="dropdown-item" th:href="@{/institutions}">Instituciones</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarTaxonomia" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Taxonomía
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" th:href="@{/reinos}">Reinos</a>
+          <a class="dropdown-item" th:href="@{/filos}">Filos</a>
+          <a class="dropdown-item" th:href="@{/clases}">Clases</a>
+          <a class="dropdown-item" th:href="@{/ordens}">Ordenes</a>
+          <a class="dropdown-item" th:href="@{/familias}">Familias</a>
+          <a class="dropdown-item" th:href="@{/generos}">Generos</a>
+        </div>
+      </li>
+
+    </ul>
+  </div>
+</nav>
+
+<div class="container-fluid">
+  <div class="text-center"><h2>[[${pageTitle}]]</h2></div>
+  <form th:action="@{/generos/save}" method="post" th:object="${genero}"
+        style="max-width: 500px; margin: 0 auto;">
+    <input type="hidden" th:field="*{id}">
+    <div class="border border-secondary rounded p-3">
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label p-3">Nombre</label>
+        <div class="col-sm-8">
+          <input type="text" th:field="*{scientific_name}" class="form-control" required minlength="3" maxlength="50"/>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label p-3">Autor</label>
+        <div class="col-sm-8">
+          <input type="text" th:field="*{author_name}" class="form-control" required minlength="3" maxlength="50"/>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label p-3">Año de publicacion</label>
+        <div class="col-sm-8">
+          <input type="text" th:field="*{publication_year}" class="form-control" required minlength="2" maxlength="25"/>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label p-3">Ancestro</label>
+        <div class="col-sm-8">
+          <input type="text" th:field="*{taxon_ancestor}" class="form-control" required minlength="1" maxlength="15"/>
+        </div>
+      </div>
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary m-2">Save</button>
+        <button type="button" class="btn btn-danger m-2" onclick="cancelForm()">Cancel</button>
+      </div>
+
+
+    </div>
+  </form>
+
+</div>
+<script type="text/javascript">
+  function cancelForm(){
+    window.location="[[@{/generos}]]"
+  }
+
+
+</script>
+</body>
+</html>
